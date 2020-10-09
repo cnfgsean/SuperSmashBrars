@@ -13,8 +13,11 @@ class Fight(object):
             print("Player 1 ({}) HP: {}".format(self.p1.name, self.p1.hp))
             print("Player 2 ({}) HP: {}".format(self.p2.name, self.p2.hp))
             
-            p1move = input("Select Player 1 Move (a, {}d)".format("s, " if self.p1.resource >= self.p1.srec else ""))
-            p2move = input("Select Player 2 Move (a, {}d)".format("s, " if self.p2.resource >= self.p2.srec else ""))
+            specialstatus1 = True if self.p1.resource >= self.p1.srec else False
+            specialstatus2 = True if self.p2.resource >= self.p2.srec else False
+            
+            p1move = input("Select Player 1 Move (a, {}d)".format("s, " if specialstatus1 else ""))
+            p2move = input("Select Player 2 Move (a, {}d)".format("s, " if specialstatus2 else ""))
             
             if coinflip == 0:
                 self.p1.passive()
@@ -35,6 +38,9 @@ class Fight(object):
                     lose = self.p1
                     break
                 
+            
+            
+            
             
             
             """
@@ -57,6 +63,11 @@ class Fight(object):
             # p2 attack p1 #
             if coinflip == 0:
                 print("Player 2 ({}) Attacks first!".format(self.p2.name))
+                 
+                 
+                if specialstatus2 and p2move == 's':
+                    self.p2.special()
+
                 d = 0 if random.uniform(1, 100) < self.p1.dodge else 1
                 if d == 0:
                     print("Player 1 ({}): Dodged Player 2's ({}) Attack!".format(self.p1.name, self.p2.name))  
@@ -70,7 +81,11 @@ class Fight(object):
                 if self.p1.hp <= 0:
                     lose = self.p1
                     break
-                        
+##############################################                
+
+                if specialstatus1 and p1move == 's':
+                    self.p1.special()
+                    
                 d = 0 if random.uniform(1, 100) < self.p2.dodge else 1
                 if d == 0:
                     print("Player 2 ({}): Dodged Player 1's ({}) Attack!".format(self.p2.name, self.p1.name))               
@@ -86,6 +101,10 @@ class Fight(object):
                     break
             else:
                 print("Player 1 ({}) Attacks first!".format(self.p1.name))
+                
+                if specialstatus2 and p2move == 's':
+                    self.p2.special()
+                    
                 d = 0 if random.uniform(1, 100) < self.p2.dodge else 1
                 if d == 0:
                     print("Player 2 ({}): Dodged Player 1's ({}) Attack!".format(self.p2.name, self.p1.name))           
@@ -99,6 +118,9 @@ class Fight(object):
                 if self.p2.hp <= 0:
                     lose = self.p2
                     break         
+################################################## 
+                if specialstatus2 and p2move == 's':
+                    self.p2.special()
                     
                 d = 0 if random.uniform(1, 100) < self.p1.dodge else 1
                 if d == 0:
@@ -124,9 +146,15 @@ class Fight(object):
                 self.p2.defense = p2oldd
                 self.p2.attack = p2olda
             """
+            
+            self.p1.specialend()
+            self.p2.specialend()
+            
+            
             self.p1.passiveend()
             self.p2.passiveend()
             
+  
             self.p1.endround()
             self.p2.endround()
             
@@ -138,6 +166,7 @@ class Fight(object):
             
 
 class Character(object):   
+    ifspec = False
     #self.properties = {name : None, hp : None, attack : None, dodge : None, crit : None, defense : None, gender : None}
     def __init__(self, name, title, hp, attack, dodge, crit, defense, gender):
         self.name = name
@@ -149,6 +178,7 @@ class Character(object):
         self.defense = defense
         self.gender = gender.lower()
         self.resource = 0
+        self.srec = 0
         
         #self.modifiers = {hp : 1, attack : 1, dodge : 1, crit : 1, defense : 1}
     
@@ -159,7 +189,11 @@ class Character(object):
         pass
      
     def special(self):
-        pass
+        self.resource -= self.srec
+        self.ifspec = True
+        
+    def specialend(self):
+        self.ifspec = False
         
     def onSwap(self):
         pass
@@ -172,9 +206,14 @@ class Character(object):
         
     def endround(self):
         self.resource += 1
+        
+        if self.ifspec:
+            self.specialend()
 
 class Sean(Character): 
+    base = {'hp':1200, 'attack':160, 'dodge':30, 'crit':30, 'defense':20, 'gender':"male"}
     def __init__(self):
+        #add mod
         super().__init__("Sean", title="Long Dong Sean Fong", hp=1200, attack=160, dodge=30, crit=30, defense=20, gender="male")
         self.srec = 2
     
@@ -183,18 +222,22 @@ class Sean(Character):
         self.dodge += 0.03*30
       
     def special(self):
-        olddodge = self.dodge
-        oldcrit = self.crit
+        super().special()
+        self.base['dodge'] = self.dodge
+        self.base['crit'] = self.crit
         
         self.dodge = 100
         self.crit = 100
-    
-        self.dodge = olddodge
-        self.crit = oldcrit
+              
+    def specialend(self):
+        super().specialend()
+        self.dodge = self.base['dodge']
+        self.crit = self.base['dodge']
         
       
     
 class Arvin(Character): 
+    base = {'hp':2100, 'attack':170, 'dodge':10, 'crit':20, 'defense':20, 'gender':"male"}
     def __init__(self):
         super().__init__("Arvin", title="The Vegetarian", hp=2100, attack=170, dodge=10, crit=20, defense=20, gender="male")
         self.srec = 2
@@ -206,11 +249,12 @@ class Arvin(Character):
         self.attack += (20)*self.resource
         self.resource = 0
   
-  
+        
 class Jay(Character): 
     selfhit = 12
     hitself = False
     
+    base = {'hp':3800, 'attack':280, 'dodge':0, 'crit':10, 'defense':50, 'gender':"male"}
     def __init__(self):
         super().__init__("Jay", title="GayJay47", hp=3800, attack=280, dodge=0, crit=10, defense=50, gender="male")
         self.srec = 8
@@ -244,7 +288,7 @@ class Jay(Character):
              
     
     
-game = Fight(Jay(), Arvin())
+game = Fight(Sean(), Arvin())
 game.run()
 
 
