@@ -148,8 +148,8 @@ class Fight(object):
                 self.p2.attack = p2olda
             """
             
-            self.p1.specialend()
-            self.p2.specialend()
+            #self.p1.specialend()
+            #self.p2.specialend()
             
             
             self.p1.passiveend()

@@ -1,2 +1,6 @@
+#intellij files
 .idea
+#virtual enviorment files
 venv
+#complied pythonc files
+**.pyc
