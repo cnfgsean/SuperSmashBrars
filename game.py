@@ -1,5 +1,9 @@
 import random
 
+from People.arvin import Arvin
+from People.jay import Jay
+from People.sean import Sean
+
 class Fight(object):
     turn = 1
     def __init__(self, p1, p2):
@@ -37,10 +41,7 @@ class Fight(object):
                 if self.p1.hp <= 0:
                     lose = self.p1
                     break
-                
-            
-            
-            
+
             
             
             """
@@ -147,8 +148,8 @@ class Fight(object):
                 self.p2.attack = p2olda
             """
             
-            self.p1.specialend()
-            self.p2.specialend()
+            #self.p1.specialend()
+            #self.p2.specialend()
             
             
             self.p1.passiveend()
@@ -163,129 +164,6 @@ class Fight(object):
             print("\n\n")
            
         print("{} loses!".format(lose.name))
-            
-
-class Character(object):   
-    ifspec = False
-    #self.properties = {name : None, hp : None, attack : None, dodge : None, crit : None, defense : None, gender : None}
-    def __init__(self, name, title, hp, attack, dodge, crit, defense, gender):
-        self.name = name
-        self.title = title
-        self.hp = hp
-        self.attack = attack
-        self.dodge = dodge
-        self.crit = crit
-        self.defense = defense
-        self.gender = gender.lower()
-        self.resource = 0
-        self.srec = 0
-        
-        #self.modifiers = {hp : 1, attack : 1, dodge : 1, crit : 1, defense : 1}
-    
-    def passive(self):
-        pass
-        
-    def passiveend(self):
-        pass
-     
-    def special(self):
-        self.resource -= self.srec
-        self.ifspec = True
-        
-    def specialend(self):
-        self.ifspec = False
-        
-    def onSwap(self):
-        pass
-        
-    def a(self):
-        pass
-        
-    def d(self):
-        pass
-        
-    def endround(self):
-        self.resource += 1
-        
-        if self.ifspec:
-            self.specialend()
-
-class Sean(Character): 
-    base = {'hp':1200, 'attack':160, 'dodge':30, 'crit':30, 'defense':20, 'gender':"male"}
-    def __init__(self):
-        #add mod
-        super().__init__("Sean", title="Long Dong Sean Fong", hp=1200, attack=160, dodge=30, crit=30, defense=20, gender="male")
-        self.srec = 2
-    
-    def passive(self):
-        self.crit += 0.03*30
-        self.dodge += 0.03*30
-      
-    def special(self):
-        super().special()
-        self.base['dodge'] = self.dodge
-        self.base['crit'] = self.crit
-        
-        self.dodge = 100
-        self.crit = 100
-              
-    def specialend(self):
-        super().specialend()
-        self.dodge = self.base['dodge']
-        self.crit = self.base['dodge']
-        
-      
-    
-class Arvin(Character): 
-    base = {'hp':2100, 'attack':170, 'dodge':10, 'crit':20, 'defense':20, 'gender':"male"}
-    def __init__(self):
-        super().__init__("Arvin", title="The Vegetarian", hp=2100, attack=170, dodge=10, crit=20, defense=20, gender="male")
-        self.srec = 2
-        
-    def passive(self):
-        self.hp = min(2100, self.hp+random.randint(40, 60))
-        
-    def special(self):
-        self.attack += (20)*self.resource
-        self.resource = 0
-  
-        
-class Jay(Character): 
-    selfhit = 12
-    hitself = False
-    
-    base = {'hp':3800, 'attack':280, 'dodge':0, 'crit':10, 'defense':50, 'gender':"male"}
-    def __init__(self):
-        super().__init__("Jay", title="GayJay47", hp=3800, attack=280, dodge=0, crit=10, defense=50, gender="male")
-        self.srec = 8
-        
-    def passive(self):
-        if random.uniform(1,100) < self.selfhit:
-            self.hitself = True
-            self.hp -= (self.attack - self.defense)
-            
-            c = 2 if random.uniform(1, 100) < self.crit else 1
-            print("Jay dealt {} damage to himself!".format(c*self.attack - self.defense))
-            
-            self.attack = 0
-        
-    def passiveend(self):
-        self.attack = 280
-        #self.selfhit = 12
-        
-    def special(self):
-        pass
-        
-    def endround(self):
-        super().endround()
-        self.selfhit += 3
-        
-        if self.hitself:
-            self.passiveend()
-            self.hitself = False
-        
-    
-             
     
     
 game = Fight(Sean(), Arvin())
