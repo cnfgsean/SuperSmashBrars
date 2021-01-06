@@ -7,15 +7,25 @@ class Sean(Character):
         self.srec = 2
 
     def passive(self):
-        self.crit += 0.03 * 30
-        self.dodge += 0.03 * 30
-
+        
+        self.crit += 3
+        self.dodge += 3
+        
+        global ocrit 
+        ocrit = self.crit
+        
+        global ododge 
+        ododge = self.dodge
+    
+    def specialend(self):
+        
+        self.dodge = ododge
+        self.crit = ocrit
+    
     def special(self):
-        olddodge = self.dodge
-        oldcrit = self.crit
 
         self.dodge = 100
         self.crit = 100
-
-        self.dodge = olddodge
-        self.crit = oldcrit
+        self.resource -= 2
+  
+        
