@@ -1,3 +1,4 @@
+import random
 class Character(object):
     # self.properties = {name : None, hp : None, attack : None, dodge : None, crit : None, defense : None, gender : None}
     def __init__(self, name, title, hp, attack, dodge, crit, defense, gender):
@@ -25,11 +26,16 @@ class Character(object):
     def onSwap(self):
         pass
 
-    def a(self):
-        pass
+    def critical(self):
+        return 2 if random.uniform(1, 100) < self.crit else 1
 
-    def d(self):
-        pass
+    def damage(self, dodgemultiplier):
+        if self.defense > 0:
+            self.hp -= dodgemultiplier *(max(0, self.critical() *self.attack - self.defense))
+        else:
+            self.hp -= dodgemultiplier *(max(0, self.critical() *self.attack - (2*self.defense)))
+
+
 
     def endround(self):
         self.resource += 1
