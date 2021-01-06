@@ -7,7 +7,7 @@ class Jay(Character):
 
     def __init__(self):
         super().__init__("Jay", title="GayJay47", hp=3800, attack=280, dodge=0, crit=10, defense=50, gender="male")
-        self.srec = 8
+        self.srec = 11
 
     def passive(self):
         if random.uniform(1, 100) < self.selfhit:
@@ -24,7 +24,16 @@ class Jay(Character):
         # self.selfhit = 12
 
     def special(self):
-        pass
+        self.attack *= 2
+        self.crit = 100
+        self.defense -= 100
+        self.resource -= 10
+        return "undodgeable"
+
+    def specialend(self):
+        self.attack = 280
+        self.crit = 10
+        
 
     def endround(self):
         super().endround()
