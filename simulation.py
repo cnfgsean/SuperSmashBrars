@@ -6,7 +6,7 @@ from People.jiyang import Jiyang
 from People.sara import Sara
 from People.peter import Peter
 
-from game import Fight # this triggers a fight from the last two lines of game.py
+from game import Fight # this triggers a fight from the last line of game.py, unrelated to the simulation
 
 # for simulation
 d = {"Sara" : 0, "Arvin" : 0}

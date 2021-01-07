@@ -26,6 +26,7 @@ class Fight(object):
 
         self.p2.enemy = self.p1
         self.p1.enemy = self.p2
+        self.run()
 
     # make universally probably
     def damage(self, attacker, victim):
@@ -160,4 +161,4 @@ class Fight(object):
 
 
 game = Fight(Peter(), Sean(), True)
-game.run()
+
