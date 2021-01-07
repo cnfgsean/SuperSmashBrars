@@ -10,9 +10,9 @@ class Jay(Character):
         self.srec = 11
 
     def passive(self):
-        print(self.selfhit)
+        #print(self.selfhit)
         if random.uniform(1, 100) < self.selfhit:
-            print("hsbfjsdfbfhsbfhjfbhjsfs")
+            #print("hsbfjsdfbfhsbfhjfbhjsfs")
             self.hitself = True
             c = 2 if random.uniform(1, 100) < self.getActualCRIT() else 1
             self.hp -= c * (self.getActualATK() - self.getActualDEF())
@@ -22,7 +22,7 @@ class Jay(Character):
 
     def passiveend(self):
         self.attack = 280
-        self.selfhit = 12
+        #self.selfhit = 12
 
     def special(self):
         self.modifiers['attack']['selfmult'] += 1

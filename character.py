@@ -13,8 +13,12 @@ class Character(object):
         self.defense = defense
         self.gender = gender
         self.resource = 0
+        
         self.doescrit = 1
+        self.doesdodge = 0
+        
         self.enemy = None
+        
         
         self.isSpecial = False
         
@@ -42,8 +46,8 @@ class Character(object):
     def onSwap(self):
         pass
 
-    def dodged(self):
-        return 1 if random.uniform(1, 100) > self.getActualDODGE() else 0
+    def testdodged(self):
+        self.doesdodge = 1 if random.uniform(1, 100) > self.getActualDODGE() else 0
 
     def damage(self, opponentattack, critmult):
         damage = None
@@ -77,6 +81,7 @@ class Character(object):
     def endround(self):
         self.resource += 1
         self.doescrit = 1
+        self.doesdodge = 0
         
         if self.isSpecial:
             self.isSpecial = False

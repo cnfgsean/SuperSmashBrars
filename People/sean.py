@@ -4,7 +4,7 @@ class Sean(Character):
     def __init__(self):
         super().__init__("Sean", title="Long Dong Sean Fong", hp=1200, attack=160, dodge=30, crit=30, defense=20,
                          gender=0)
-        self.srec = 3
+        self.srec = 2
 
     def passive(self):
         
