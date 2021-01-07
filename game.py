@@ -20,7 +20,7 @@ class Fight(object):
         actualcrit = attacker.crit * attacker.modifiers['crit']['selfmult'] * attacker.modifiers['crit']['othermult'] + attacker.modifiers['crit']['selfadd'] + attacker.modifiers['crit']['otheradd']
         actualdefense = victim.defense * victim.modifiers['defense']['selfmult'] * victim.modifiers['defense']['othermult'] + victim.modifiers['defense']['selfadd'] + victim.modifiers['defense']['otheradd']
         
-        print("Atk = {}\nDodge = {}\nCrit = {}\n Def = {}\n".format(actualattack, actualdodge, actualcrit, actualdefense))
+        print("Atk = {}\nDodge = {}\nCrit = {}\nDef = {}\n".format(actualattack, actualdodge, actualcrit, actualdefense))
         attacker.doescrit = 2 if random.uniform(1, 100) < actualcrit else 1
         
         
@@ -84,6 +84,12 @@ class Fight(object):
             #p2 attacks p1
             print("({}) attacks ({})".format(self.p2.name, self.p1.name))
             self.damage(self.p2, self.p1)
+            
+            
+            print("MODIFIERS")
+            print(self.p1.modifiers)
+            print(self.p2.modifiers)
+            print("-----------------------------------")
             
             #death checks
 
