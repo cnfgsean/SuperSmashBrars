@@ -1,35 +1,47 @@
+import os
 import random
-from People.arvin import Arvin
-from People.jay import Jay
-from People.sean import Sean
-from People.jiyang import Jiyang
-from People.sara import Sara
+import sys
+
 from People.peter import Peter
+from People.sean import Sean
+
+
+# Disable
+def blockPrint():
+    sys.stdout = open(os.devnull, 'w')  # There might be a way to do this only using sys not sure
+
+
+# Restore
+def enablePrint():
+    sys.stdout = sys.__stdout__
 
 
 class Fight(object):
     turn = 1
-    def __init__(self, p1, p2):
+
+    def __init__(self, p1, p2, output):
         self.p1 = p1
         self.p2 = p2
-        
+        self.output = output
+
         self.p2.enemy = self.p1
         self.p1.enemy = self.p2
+        self.run()
 
-    #### make universally probably
+    # make universally probably
     def damage(self, attacker, victim):
         damage = None
         victim.testdodged()
-        
+
         actualattack = attacker.getActualATK()
         actualdodge = victim.getActualDODGE()
         actualcrit = attacker.getActualCRIT()
         actualdefense = victim.getActualDEF()
-        
-        print("Atk = {}\nDodge = {}\nCrit = {}\nDef = {}\n".format(actualattack, actualdodge, actualcrit, actualdefense))
+
+        print(
+            "Atk = {}\nDodge = {}\nCrit = {}\nDef = {}\n".format(actualattack, actualdodge, actualcrit, actualdefense))
         attacker.doescrit = 2 if random.uniform(1, 100) < actualcrit else 1
-        
-        
+
         if actualdefense > 0:
             damage = victim.doesdodge * (max(0, attacker.doescrit * actualattack - actualdefense))
         else:
@@ -42,12 +54,14 @@ class Fight(object):
                 print("Was dealt a critical hit")
             print("({}) took {} damage".format(victim.name, damage))
         victim.hp -= damage
-        
+
     def run(self):
-        coinflip = random.randint(0,1)
+        if not self.output:
+            blockPrint()
+
+        coinflip = random.randint(0, 1)
         if coinflip == 0:
             self.p1, self.p2 = self.p2, self.p1
-
 
         lose = None
 
@@ -58,7 +72,6 @@ class Fight(object):
             print("Player 1 ({}) HP: {}".format(self.p1.name, self.p1.hp))
             print("Player 2 ({}) HP: {}".format(self.p2.name, self.p2.hp))
 
-           
             if self.p2.hp < 0:
                 lose = self.p2
                 break
@@ -67,33 +80,31 @@ class Fight(object):
                 lose = self.p1
                 break
 
+            # for normal mode simulation
+            if self.output:
+                p1c = input("{}: Select your move ({})".format(self.p1.name,
+                                                               "a, s" if self.p1.resource >= self.p1.srec else "a"))
+                p2c = input("{}: Select your move ({})".format(self.p2.name,
+                                                               "a, s" if self.p2.resource >= self.p2.srec else "a"))
+            else:
+                p1c = 's'
+                p2c = 's'
 
-
-            p1c = input("{}: Select your move ({})".format(self.p1.name, "a, s" if self.p1.resource >= self.p1.srec else "a"))
-            p2c = input("{}: Select your move ({})".format(self.p2.name, "a, s" if self.p2.resource >= self.p2.srec else "a"))
-            
-            
-            #for simulation
-            #p1c = 's'
-            #p2c = 's'
-            
-            #start passives
+            # start passives
 
             self.p1.passive()
             self.p2.passive()
-
-
 
             if p1c.lower() == "s":
                 if self.p1.resource >= self.p1.srec:
                     self.p1.isSpecial = True
                     self.p1.special()
-                
+
             if p2c.lower() == "s":
                 if self.p2.resource >= self.p2.srec:
                     self.p2.isSpecial = True
                     self.p2.special()
-            #p1 attacks p2
+            # p1 attacks p2
             """
             print("({}) attacks ({})".format(self.p1.name, self.p2.name))
 
@@ -109,51 +120,45 @@ class Fight(object):
             print("({}) attacks ({})".format(self.p1.name, self.p2.name))
             self.damage(self.p1, self.p2)
 
-            #p2 attacks p1
+            # p2 attacks p1
             print("({}) attacks ({})".format(self.p2.name, self.p1.name))
             self.damage(self.p2, self.p1)
-            
-            
+
             print("MODIFIERS")
             print(self.p1.modifiers)
             print(self.p2.modifiers)
             print("-----------------------------------")
-            
-            #death checks
 
+            # death checks
 
             if self.p2.hp < 0:
                 lose = self.p2
                 break
-                
+
             if self.p1.hp < 0:
                 lose = self.p1
                 break
 
-            
-
             # end passives
 
-            #self.p1.passiveend()
-            #self.p2.passiveend()
+            # self.p1.passiveend()
+            # self.p2.passiveend()
 
-            #This function should be removed
-            #self.p1.specialend()
-            #self.p2.specialend()
-  
+            # This function should be removed
+            # self.p1.specialend()
+            # self.p2.specialend()
+
             self.p1.endround()
             self.p2.endround()
-            
-            
+
             self.turn += 1
             print("\n\n")
-           
+
         print("{} loses!".format(lose.name))
         print("{} : {}\n{} : {}".format(self.p1.name, self.p1.hp, self.p2.name, self.p2.hp))
+        enablePrint()
         return lose.name
-    
-#####    
-game = Fight(Peter(), Sean())
-game.run()
 
+
+game = Fight(Peter(), Sean(), True)
 
