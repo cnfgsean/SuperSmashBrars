@@ -2,7 +2,7 @@ import random
 from People.arvin import Arvin
 from People.jay import Jay
 from People.sean import Sean
-#from People.jiyang import Jiyang
+from People.jiyang import Jiyang
 
 class Fight(object):
     turn = 1
@@ -38,14 +38,16 @@ class Fight(object):
             self.p2.passive()
 
             #p1 attacks p2
+            print("({}) attacks ({})".format(self.p1.name, self.p2.name))
 
-            dodged = 1 if random.uniform(1, 100) > self.p2.dodge else 0
-            self.p2.damage(dodged)
+            doescrit = 2 if random.uniform(1, 100) < self.p1.crit else 1
+            self.p2.damage(self.p1.attack, doescrit)
 
             #p2 attacks p1
+            print("({}) attacks ({})".format(self.p2.name, self.p1.name))
 
-            dodged = 1 if random.uniform(1, 100) > self.p1.dodge else 0
-            self.p1.damage(dodged)
+            doescrit = 2 if random.uniform(1, 100) < self.p2.crit else 1
+            self.p1.damage(self.p2.attack, doescrit)
 
             #death checks
 
@@ -62,8 +64,9 @@ class Fight(object):
             self.p1.passiveend()
             self.p2.passiveend()
 
-            self.p1.specialend()
-            self.p2.specialend()
+            #This function should be removed
+            #self.p1.specialend()
+            #self.p2.specialend()
   
             self.p1.endround()
             self.p2.endround()
@@ -75,7 +78,7 @@ class Fight(object):
         print("{} loses!".format(lose.name))
     
     
-game = Fight(Arvin(), Jiyang())
+game = Fight(Arvin(), Sean())
 game.run()
 
 
