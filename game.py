@@ -3,6 +3,9 @@ from People.arvin import Arvin
 from People.jay import Jay
 from People.sean import Sean
 from People.jiyang import Jiyang
+from People.sara import Sara
+from People.peter import Peter
+
 
 class Fight(object):
     turn = 1
@@ -16,7 +19,7 @@ class Fight(object):
     #### make universally probably
     def damage(self, attacker, victim):
         damage = None
-        dodgemult = victim.dodged()
+        victim.testdodged()
         
         actualattack = attacker.getActualATK()
         actualdodge = victim.getActualDODGE()
@@ -28,11 +31,11 @@ class Fight(object):
         
         
         if actualdefense > 0:
-            damage = dodgemult * (max(0, attacker.doescrit * actualattack - actualdefense))
+            damage = victim.doesdodge * (max(0, attacker.doescrit * actualattack - actualdefense))
         else:
-            damage = dodgemult * (max(0, attacker.doescrit * actualattack - (2 * actualdefense)))
+            damage = victim.doesdodge * (max(0, attacker.doescrit * actualattack - (2 * actualdefense)))
 
-        if dodgemult == 0:
+        if victim.doesdodge == 0:
             print("The attack was dodged")
         else:
             if attacker.doescrit > 1:  # its greater than 1 because some characters will have a 3 crit multiplier
@@ -68,6 +71,11 @@ class Fight(object):
 
             p1c = input("{}: Select your move ({})".format(self.p1.name, "a, s" if self.p1.resource >= self.p1.srec else "a"))
             p2c = input("{}: Select your move ({})".format(self.p2.name, "a, s" if self.p2.resource >= self.p2.srec else "a"))
+            
+            
+            #for simulation
+            #p1c = 's'
+            #p2c = 's'
             
             #start passives
 
@@ -142,8 +150,10 @@ class Fight(object):
            
         print("{} loses!".format(lose.name))
         print("{} : {}\n{} : {}".format(self.p1.name, self.p1.hp, self.p2.name, self.p2.hp))
+        return lose.name
     
-    
-game = Fight(Arvin(), Jay())
+#####    
+game = Fight(Peter(), Sean())
 game.run()
+
 

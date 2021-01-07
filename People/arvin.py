@@ -5,7 +5,7 @@ class Arvin(Character):
     def __init__(self):
         super().__init__("Arvin", title="The Vegetarian", hp=2100, attack=170, dodge=10, crit=20, defense=20,
                          gender=0)
-        self.srec = 2
+        self.srec = 1
 
     def passive(self):
         o = self.hp
@@ -14,5 +14,5 @@ class Arvin(Character):
         print("({}) heals {} health".format(self.name, self.hp - o))
 
     def special(self):
-        self.attack += (40) 
+        self.attack += (20) 
         self.resource -= self.srec
