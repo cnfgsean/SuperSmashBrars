@@ -13,7 +13,7 @@ class Fight(object):
     def run(self):
         coinflip = random.randint(0,1)
         if coinflip == 0:
-            p1,p2 = p2,p1
+            self.p1, self.p2 = self.p2,self.p1
 
         lose = None
 
@@ -84,7 +84,3 @@ game.run()
 
 
 
-
-
-
-        
