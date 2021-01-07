@@ -10,29 +10,36 @@ class Jay(Character):
         self.srec = 11
 
     def passive(self):
+        print(self.selfhit)
         if random.uniform(1, 100) < self.selfhit:
+            print("hsbfjsdfbfhsbfhjfbhjsfs")
             self.hitself = True
-            self.hp -= (self.attack - self.defense)
-
-            c = 2 if random.uniform(1, 100) < self.crit else 1
+            c = 2 if random.uniform(1, 100) < self.getActualCRIT() else 1
+            self.hp -= c * (self.getActualATK() - self.getActualDEF())
             print("Jay dealt {} damage to himself!".format(c * self.attack - self.defense))
 
             self.attack = 0
 
     def passiveend(self):
         self.attack = 280
-        # self.selfhit = 12
+        self.selfhit = 12
 
     def special(self):
-        self.attack *= 2
-        self.crit = 100
-        self.defense -= 100
-        self.resource -= 10
+        self.modifiers['attack']['selfmult'] += 1
+        self.modifiers['crit']['selfadd'] += 1000
+        self.modifiers['defense']['selfadd'] += -100
+        
+        self.enemy.modifiers['dodge']['othermult'] += -1
+        
+        
+       
+       
+        self.resource -= self.srec
         return "undodgeable"
         
 
     def endround(self):
-        super().endround()
+        
         self.selfhit += 3
 
         if self.hitself:
@@ -40,7 +47,11 @@ class Jay(Character):
             self.hitself = False
             
         if self.isSpecial:
-            self.attack = 280
-            self.crit = 10
-            self.isSpecial = False
+            self.modifiers['attack']['selfmult'] -= 1
+            self.modifiers['crit']['selfadd'] -= 1000
+            self.modifiers['defense']['selfadd'] -= -100
+            self.enemy.modifiers['dodge']['othermult'] -= -1
+            
+        super().endround()
+            
             

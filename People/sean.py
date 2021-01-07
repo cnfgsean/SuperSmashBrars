@@ -4,7 +4,7 @@ class Sean(Character):
     def __init__(self):
         super().__init__("Sean", title="Long Dong Sean Fong", hp=1200, attack=160, dodge=30, crit=30, defense=20,
                          gender=0)
-        self.srec = 2
+        self.srec = 3
 
     def passive(self):
         
@@ -17,13 +17,13 @@ class Sean(Character):
 
         self.modifiers['dodge']['selfmult'] = 100000
         self.modifiers['crit']['selfmult'] = 100000
-        self.resource -= 2
+        self.resource -= self.srec
     
     def endround(self):
-        super().endround()
         if self.isSpecial:
-            self.isSpecial = False
             self.modifiers['dodge']['selfmult'] = 1
             self.modifiers['crit']['selfmult'] = 1
+            
+        super().endround()
         
         

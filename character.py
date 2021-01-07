@@ -14,6 +14,7 @@ class Character(object):
         self.gender = gender
         self.resource = 0
         self.doescrit = 1
+        self.enemy = None
         
         self.isSpecial = False
         
@@ -42,7 +43,7 @@ class Character(object):
         pass
 
     def dodged(self):
-        return 1 if random.uniform(1, 100) > self.dodge else 0
+        return 1 if random.uniform(1, 100) > self.getActualDODGE() else 0
 
     def damage(self, opponentattack, critmult):
         damage = None
@@ -60,7 +61,22 @@ class Character(object):
         else:
             print("({}) took {} damage".format(self.name, damage))
         self.hp -= damage
+     
+    def getActualATK(self):
+        return (self.attack + self.modifiers['attack']['selfadd'] + self.modifiers['attack']['otheradd']) * self.modifiers['attack']['selfmult'] * self.modifiers['attack']['othermult'] 
+        
+    def getActualDODGE(self):
+        return (self.dodge + self.modifiers['dodge']['selfadd'] + self.modifiers['dodge']['otheradd']) * self.modifiers['dodge']['selfmult'] * self.modifiers['dodge']['othermult'] 
+        
+    def getActualCRIT(self):
+        return (self.crit + self.modifiers['crit']['selfadd'] + self.modifiers['crit']['otheradd']) * self.modifiers['crit']['selfmult'] * self.modifiers['crit']['othermult'] 
+        
+    def getActualDEF(self):
+        return (self.defense + self.modifiers['defense']['selfadd'] + self.modifiers['defense']['otheradd']) * self.modifiers['defense']['selfmult'] * self.modifiers['defense']['othermult'] 
 
     def endround(self):
         self.resource += 1
         self.doescrit = 1
+        
+        if self.isSpecial:
+            self.isSpecial = False
