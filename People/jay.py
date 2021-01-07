@@ -6,7 +6,7 @@ class Jay(Character):
     hitself = False
 
     def __init__(self):
-        super().__init__("Jay", title="GayJay47", hp=3800, attack=280, dodge=0, crit=10, defense=50, gender="male")
+        super().__init__("Jay", title="GayJay47", hp=3800, attack=280, dodge=0, crit=10, defense=50, gender=0)
         self.srec = 11
 
     def passive(self):
@@ -29,10 +29,6 @@ class Jay(Character):
         self.defense -= 100
         self.resource -= 10
         return "undodgeable"
-
-    def specialend(self):
-        self.attack = 280
-        self.crit = 10
         
 
     def endround(self):
@@ -42,3 +38,9 @@ class Jay(Character):
         if self.hitself:
             self.passiveend()
             self.hitself = False
+            
+        if self.isSpecial:
+            self.attack = 280
+            self.crit = 10
+            self.isSpecial = False
+            

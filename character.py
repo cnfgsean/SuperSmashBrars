@@ -11,11 +11,24 @@ class Character(object):
         self.dodge = dodge
         self.crit = crit
         self.defense = defense
-        self.gender = gender.lower()
+        self.gender = gender
         self.resource = 0
-
-        # self.modifiers = {hp : 1, attack : 1, dodge : 1, crit : 1, defense : 1}
-
+        self.doescrit = 1
+        
+        self.isSpecial = False
+        
+        self.modifiers = {'hp' :      {"selfmult" : 1, "othermult" : 1, "selfadd" : 0, "otheradd" : 0}, 
+                        'attack' :    {"selfmult" : 1, "othermult" : 1, "selfadd" : 0, "otheradd" : 0},
+                        'dodge' :     {"selfmult" : 1, "othermult" : 1, "selfadd" : 0, "otheradd" : 0}, 
+                        'crit' :      {"selfmult" : 1, "othermult" : 1, "selfadd" : 0, "otheradd" : 0},
+                        'defense' :   {"selfmult" : 1, "othermult" : 1, "selfadd" : 0, "otheradd" : 0}}
+                        
+        """
+        actualattack = attack * modifiers[attack][selfmult] * modifiers[attack][othermult] + modifiers[attack][selfadd]+ modifiers[attack][otheradd]
+        actualdodge = dodge * modifiers[dodge][selfmult] * modifiers[dodge][othermult] + modifiers[dodge][selfadd]+ modifiers[dodge][otheradd]
+        actualcrit = crit * modifiers[crit][selfmult] * modifiers[crit][othermult] + modifiers[crit][selfadd]+ modifiers[crit][otheradd]
+        actualdefense = defense * modifiers[defense][selfmult] * modifiers[defense][othermult] + modifiers[defense][selfadd]+ modifiers[defense][otheradd]
+        """
     def passive(self):
         pass
 
@@ -37,7 +50,7 @@ class Character(object):
         if self.defense > 0:
             damage = dodgemult * (max(0, critmult * opponentattack - self.defense))
         else:
-            damage -= dodgemult * (max(0, critmult * opponentattack - (2 * self.defense)))
+            damage = dodgemult * (max(0, critmult * opponentattack - (2 * self.defense)))
 
         if critmult > 1:  # its greater than 1 because some characters will have a 3 crit multiplier
             print("Was dealt a critical hit")
@@ -50,3 +63,4 @@ class Character(object):
 
     def endround(self):
         self.resource += 1
+        self.doescrit = 1
