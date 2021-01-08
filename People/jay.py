@@ -25,17 +25,14 @@ class Jay(Character):
         #self.selfhit = 12
 
     def special(self):
-        self.modifiers['attack']['selfmult'] += 1
-        self.modifiers['crit']['selfadd'] += 1000
-        self.modifiers['defense']['selfadd'] += -100
+        self.modifiers['attack']['selfmult'] = 2
+        self.modifiers['crit']['selfadd'] = 1000
+        self.modifiers['defense']['selfadd'] = -100
         
-        self.enemy.modifiers['dodge']['othermult'] += -1
-        
-        
-       
-       
+        self.enemy.modifiers['dodge']['othermult'] = 0
+      
         self.resource -= self.srec
-        return "undodgeable"
+        #return "undodgeable"
         
 
     def endround(self):
@@ -47,10 +44,10 @@ class Jay(Character):
             self.hitself = False
             
         if self.isSpecial:
-            self.modifiers['attack']['selfmult'] -= 1
-            self.modifiers['crit']['selfadd'] -= 1000
-            self.modifiers['defense']['selfadd'] -= -100
-            self.enemy.modifiers['dodge']['othermult'] -= -1
+            self.modifiers['attack']['selfmult'] = 1
+            self.modifiers['crit']['selfadd'] = 0
+            self.modifiers['defense']['selfadd'] = 0
+            self.enemy.modifiers['dodge']['othermult'] = 1
             
         super().endround()
             

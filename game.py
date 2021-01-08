@@ -2,8 +2,14 @@ import os
 import random
 import sys
 
-from People.peter import Peter
+from People.arvin import Arvin
+from People.jay import Jay
 from People.sean import Sean
+from People.jiyang import Jiyang
+from People.sara import Sara
+from People.peter import Peter
+from People.phillip import Phillip
+from People.romir import Romir
 
 
 # Disable
@@ -159,9 +165,6 @@ class Fight(object):
         enablePrint()
         return lose.name
 
-if __name__ == "__main__":
-    teams = {   "team1" : [Arvin(), Sean(), Jay()],
-                "team2" : [Jay(), Sara(), Peter()]}
-                
-    game = Fight(Peter(), Sean(), True)
+if __name__ == "__main__":                   
+    game = Fight(Romir(), Arvin(), True)
 

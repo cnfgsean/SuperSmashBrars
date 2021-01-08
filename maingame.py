@@ -8,6 +8,8 @@ from People.sean import Sean
 from People.jiyang import Jiyang
 from People.sara import Sara
 from People.peter import Peter
+from People.phillip import Phillip
+from People.romir import Romir
 
 
 # Disable
@@ -27,6 +29,13 @@ class Fight(object):
         self.teams = teams
         self.p1 = self.teams["team1"][0]
         self.p2 = self.teams["team2"][0]
+        
+        for q in self.teams["team1"]:
+            q.team = self.teams["team1"]
+            
+        for q in self.teams["team2"]:
+            q.team = self.teams["team2"]    
+        
 
         self.p2.enemy = self.p1
         self.p1.enemy = self.p2
@@ -61,7 +70,7 @@ class Fight(object):
 
 
     def deathcheck(self):
-        if self.p2.hp < 0:
+        if self.p2.hp <= 0:
             self.p2.onDeath()
             if self.p2.hp <= 0:
                 self.teams["team2"].remove(self.p2)
@@ -79,12 +88,8 @@ class Fight(object):
                 self.p2 = self.teams["team2"][choice-1]           
                 print("player 2 now uses {}".format(self.p2.name))       
                 
-
-            
-            
-
                 
-        if self.p1.hp < 0:
+        if self.p1.hp <= 0:
             self.p1.onDeath()            
             if self.p1.hp <= 0:
                 self.teams["team1"].remove(self.p1)
@@ -102,6 +107,8 @@ class Fight(object):
                 self.p1 = self.teams["team1"][choice-1]
                 print("player 1 now uses {}".format(self.p1.name))
             
+        self.p2.enemy = self.p1
+        self.p1.enemy = self.p2
                     
       ########################
             
@@ -168,7 +175,8 @@ class Fight(object):
                 print("player 2 swaps")
                 
             
-            
+            self.p2.enemy = self.p1
+            self.p1.enemy = self.p2
             
             # specials
             if p1c.lower() == "s":
@@ -234,8 +242,8 @@ class Fight(object):
         #return lose.name
 
 if __name__ == "__main__":
-    teams = {   "team1" : [Arvin(), Sean(), Jay()],
-                "team2" : [Sara(), Peter, Jay()]}
+    teams = {   "team1" : [Romir()],
+                "team2" : [Arvin()]}
                 
     coinflip = random.randint(0, 1)
     if coinflip == 0:
