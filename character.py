@@ -17,6 +17,8 @@ class Character(object):
         self.doescrit = 1
         self.doesdodge = 0
         
+        self.swappedin = False
+        
         self.enemy = None
         
         
@@ -34,6 +36,11 @@ class Character(object):
         actualcrit = crit * modifiers[crit][selfmult] * modifiers[crit][othermult] + modifiers[crit][selfadd]+ modifiers[crit][otheradd]
         actualdefense = defense * modifiers[defense][selfmult] * modifiers[defense][othermult] + modifiers[defense][selfadd]+ modifiers[defense][otheradd]
         """
+        
+    def __str__(self):
+        return("{}({})".format(self.name, self.hp))
+        
+        
     def passive(self):
         pass
 
@@ -43,8 +50,15 @@ class Character(object):
     def special(self):
         pass
 
-    def onSwap(self):
+    def onSwapIn(self):
         pass
+        
+    def onSwapOut(self):
+        pass
+        
+    def onDeath(self):
+        pass
+        
 
     def testdodged(self):
         self.doesdodge = 1 if random.uniform(1, 100) > self.getActualDODGE() else 0
@@ -82,6 +96,7 @@ class Character(object):
         self.resource += 1
         self.doescrit = 1
         self.doesdodge = 0
+        self.swappedin = False
         
         if self.isSpecial:
             self.isSpecial = False
