@@ -159,6 +159,9 @@ class Fight(object):
         enablePrint()
         return lose.name
 
-
-game = Fight(Peter(), Sean(), True)
+if __name__ == "__main__":
+    teams = {   "team1" : [Arvin(), Sean(), Jay()],
+                "team2" : [Jay(), Sara(), Peter()]}
+                
+    game = Fight(Peter(), Sean(), True)
 
