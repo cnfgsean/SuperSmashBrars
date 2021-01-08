@@ -5,13 +5,15 @@ from People.sean import Sean
 from People.jiyang import Jiyang
 from People.sara import Sara
 from People.peter import Peter
+from People.phillip import Phillip
+from People.romir import Romir
 
 from game import Fight # this triggers a fight from the last line of game.py, unrelated to the simulation
 
 # for simulation
-d = {"Sara" : 0, "Arvin" : 0}
+d = {"Romir" : 0, "Arvin" : 0}
 for _ in range(10000):
-    game = Fight(Sara(), Arvin(), False)
+    game = Fight(Romir(), Arvin(), False)
     d[game.run()] += 1
 
 print(d)

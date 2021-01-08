@@ -20,6 +20,7 @@ class Character(object):
         self.swappedin = False
         
         self.enemy = None
+        self.team = None
         
         
         self.isSpecial = False
@@ -57,7 +58,8 @@ class Character(object):
         pass
         
     def onDeath(self):
-        pass
+        print("{} died!".format(self.name))
+        
         
 
     def testdodged(self):

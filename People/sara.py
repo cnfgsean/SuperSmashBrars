@@ -7,15 +7,11 @@ class Sara(Character):
         self.srec = 3
         self.sccount = 0
 
-    def passive(self):
-        
+    def passive(self):      
         self.modifiers['crit']['selfadd'] += 5
-        
-        
-    
+                 
     
     def special(self):
-
         self.enemy.modifiers['defense']['otheradd'] += -110
         self.resource -= self.srec
     
