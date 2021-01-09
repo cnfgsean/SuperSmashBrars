@@ -133,7 +133,7 @@ class Fight(object):
             p1c = input("{}: Select your move ({})".format(self.p1.name,
                                                            "a, s, d#" if self.p1.resource >= self.p1.srec else "a, d#"))
            
-            while p1c.lower()[0] == "d" and (int(p1c.lower()[1])-1 == self.teams["team1"].index(self.p1) or int(p1c.lower()[1])-1 not in range(1, len(self.teams["team1"]))):
+            while p1c.lower()[0] == "d" and (int(p1c.lower()[1])-1 == self.teams["team1"].index(self.p1) or int(p1c.lower()[1])-1 not in range(len(self.teams["team1"]))):
                 p1c = input("{}: Can't Swap to Same Character! Select your move ({})".format(self.p1.name,
                                                            "a, s, d#" if self.p1.resource >= self.p1.srec else "a, d#"))
                                                            
@@ -141,7 +141,7 @@ class Fight(object):
             p2c = input("{}: Select your move ({})".format(self.p2.name,
                                                            "a, s, d#" if self.p2.resource >= self.p2.srec else "a, d#"))
                                                            
-            while p2c.lower()[0] == "d" and (int(p2c.lower()[1])-1 == self.teams["team2"].index(self.p2) or int(p2c.lower()[1])-1 not in range(1, len(self.teams["team2"]))):
+            while p2c.lower()[0] == "d" and (int(p2c.lower()[1])-1 == self.teams["team2"].index(self.p2) or int(p2c.lower()[1])-1 not in range(len(self.teams["team2"]))):
                 p2c = input("{}: Can't Swap to Same Character! Select your move ({})".format(self.p2.name,
                                                            "a, s, d#" if self.p2.resource >= self.p2.srec else "a, d#"))
 
